@@ -1,27 +1,20 @@
-import { BaseLogMiddleware } from './middleware/log';
-import { BaseAuthorityMiddleware } from './middleware/authority';
 import { ModuleConfig } from '@cool-midway/core';
-import { BaseTranslateMiddleware } from './middleware/translate';
 
 /**
- * 模块的配置
+ * 模块配置
  */
-export default () => {
+export default options => {
   return {
     // 模块名称
-    name: '权限管理',
+    name: '库存管理模块',
     // 模块描述
-    description: '基础的权限管理功能，包括登录，权限校验',
-    // 中间件
-    globalMiddlewares: [
-      BaseTranslateMiddleware,
-      BaseAuthorityMiddleware,
-      BaseLogMiddleware,
-    ],
+    description: '',
+    // 中间件，只对本模块有效
+    middlewares: [],
+    // 中间件，全局有效
+    globalMiddlewares: [],
     // 模块加载顺序，默认为0，值越大越优先加载
-    order: 10,
-    // app参数配置允许读取的key
-    allowKeys: [],
+    order: 0,
     // jwt 生成解密token的
     jwt: {
       // 单点登录
@@ -34,6 +27,14 @@ export default () => {
         expire: 2 * 3600,
         // 15天内，如果没操作过就需要重新登录
         refreshExpire: 24 * 3600 * 15,
+      },
+    },
+    // 基础插件配置
+    hooks: {
+      // 文件上传
+      upload: {
+        // 地址前缀
+        domain: `http://127.0.0.1:${options?.app?.getConfig('koa.port')}`,
       },
     },
   } as ModuleConfig;

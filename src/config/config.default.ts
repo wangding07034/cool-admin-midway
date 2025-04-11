@@ -9,8 +9,8 @@ import { availablePort } from '../comm/port';
 // import { redisStore } from 'cache-manager-ioredis-yet';
 
 export default {
-  // 确保每个项目唯一，项目首次启动会自动生成
-  keys: 'cool-admin-keys-xxxxxx',
+  // use for cookie sign key, should change to your own and keep security
+  keys: '7d08a5a0007f11efa6c7d73e11a87f0d',
   koa: {
     port: availablePort(8001),
   },
