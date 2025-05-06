@@ -121,4 +121,25 @@ export class UserInfoService extends BaseService {
     }
     await this.userInfoEntity.update({ id: userId }, { phone });
   }
+
+  /**
+   * 账号密码注册
+   * @param phone
+   * @param password
+   */
+  async register(phone, password) {
+    const user = await this.userInfoEntity.findOneBy({ phone });
+    if (user) {
+      throw new CoolCommException('该账号已注册');
+    }
+    await this.userInfoEntity.insert({
+      phone,
+      password: md5(password),
+    });
+    const userInfo = await this.userInfoEntity.findOneBy({ phone });
+    if (!userInfo) {
+      throw new CoolCommException('注册失败');
+    }
+    return userInfo;
+  }
 }
